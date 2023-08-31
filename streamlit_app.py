@@ -7,7 +7,7 @@ from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2
 from tensorflow.keras.regularizers import l1, l2, l1_l2
 from tensorflow.keras.saving import load_model
 from tensorflow.keras.callbacks import EarlyStopping
-import pickle
+# import pickle
 import numpy as np
 
 
@@ -32,11 +32,13 @@ if img_data is not None:
     new_img = uploaded_img.resize((299, 299))
     other_new_img = np.expand_dims(new_img, axis = 0)
     st.image(uploaded_img)
-    img = img_to_array(other_new_img)
     model = load_model('./models/model_3.h5')
-    # print(model.predict(img))
-    # model.history['val_loss'][-1], model.history['val_acc'][-1]
-    st.write(f'Your image is a {model.predict(img)}')
+    if model.predict(other_new_img)[0][0] >= 0.5:
+        st.write('Your image IS NOT hot dog!')
+    else:
+        st.write('Your image IS a hot dog!')
+    # st.write(f'Your model has a loss function value of {res_3.history['val_loss'][-1]}')
+    # st.write(f'Your model has an accuracy score of {res_3.history['val_acc'][-1]}')
 
     
 # code above found at https://discuss.streamlit.io/t/drag-and-drop-image/43144
